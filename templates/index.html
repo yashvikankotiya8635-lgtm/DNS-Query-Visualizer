@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <!-- Auto refresh page every 5 seconds -->
+    <meta http-equiv="refresh" content="5">
+
+    <!-- Website title -->
+    <title>DNS Dashboard</title>
+
+    <style>
+
+        /* Main page styling */
+        body{
+            background-color:#0f172a;
+            color:#e2e8f0;
+            font-family:Arial;
+            padding:20px;
+        }
+
+        /* Main heading */
+        h1{
+            color:#38bdf8;
+        }
+
+        /* Table styling */
+        table{
+            width:100%;
+            border-collapse:collapse;
+            background-color:#1e293b;
+        }
+
+        /* Table cells */
+        th,td{
+            border:1px solid #334155;
+            padding:10px;
+            text-align:left;
+        }
+
+        /* Table heading */
+        th{
+            background-color:#111827;
+        }
+
+        /* Statistics cards container */
+        .cards{
+            display:flex;
+            gap:20px;
+            margin-bottom:20px;
+        }
+
+        /* Individual card styling */
+        .card{
+            background:#1e293b;
+            padding:20px;
+            border-radius:10px;
+            width:200px;
+            text-align:center;
+        }
+
+        /* Card heading */
+        .card h2{
+            color:#38bdf8;
+            font-size:20px;
+        }
+
+        /* Card numbers */
+        .card p{
+            font-size:28px;
+            font-weight:bold;
+        }
+
+        /* Map button styling */
+        .map-btn{
+            background:#38bdf8;
+            color:white;
+            border:none;
+            padding:12px 20px;
+            border-radius:8px;
+            font-size:16px;
+            cursor:pointer;
+            margin-bottom:20px;
+        }
+
+        /* Map button hover effect */
+        .map-btn:hover{
+            background:#0ea5e9;
+        }
+
+        /* General button styling */
+        button{
+            background:#38bdf8;
+            color:white;
+            border:none;
+            padding:10px 20px;
+            margin-right:10px;
+            border-radius:8px;
+            cursor:pointer;
+            font-size:16px;
+        }
+
+        /* Button hover effect */
+        button:hover{
+            background:#0ea5e9;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <!-- Dashboard heading -->
+    <h1>DNS Query Visualizer</h1>
+
+    <!-- Statistics cards -->
+    <div class="cards">
+
+        <!-- Total DNS queries -->
+        <div class="card">
+            <h2>Total Queries</h2>
+            <p>{{ total_queries }}</p>
+        </div>
+
+        <!-- Unique domains count -->
+        <div class="card">
+            <h2>Unique Domains</h2>
+            <p>{{ unique_domains }}</p>
+        </div>
+
+        <!-- Total countries detected -->
+        <div class="card">
+            <h2>Countries</h2>
+            <p>{{ countries }}</p>
+        </div>
+
+    </div>
+
+    <br>
+
+    <!-- Open DNS world map -->
+    <a href="/map" target="_blank">
+        <button>Open DNS Map</button>
+    </a>
+
+    <!-- Open domain graph -->
+    <a href="/graph" target="_blank">
+        <button>Open Domain Graph</button>
+    </a>
+
+    <br><br>
+
+    <!-- Display DNS table -->
+    {{ tables|safe }}
+
+</body>
+
+</html>
