@@ -1,52 +1,59 @@
 import pandas as pd
 import folium
+import os
 
-# Read CSV
-df = pd.read_csv("dns_log.csv")
+file_path = "dns_log.csv"
 
-# Create world map
+if not os.path.exists(file_path):
+    print("dns_log.csv file not found.")
+    exit()
+
+df = pd.read_csv(file_path)
+
 dns_map = folium.Map(
-    location=[20, 78],
+    location=[20, 0],
     zoom_start=2
 )
 
-# Add markers
-for i in range(len(df)):
+for index, row in df.iterrows():
+    lat = row["Latitude"]
+    lon = row["Longitude"]
 
-    lat = df.loc[i, "Latitude"]
-    lon = df.loc[i, "Longitude"]
-    domain = df.loc[i, "Domain"]
-
-    # Ignore unnecessary domains
-    ignore = [
-        "bing",
-        "microsoft",
-        "icloud",
-        "msn",
-        "googlevideo",
-        "cloudfront",
-        "gstatic",
-        "akadns"
-    ]
-
-    skip = False
-
-    for word in ignore:
-        if word in str(domain).lower():
-            skip = True
-
-    if skip:
+    if pd.isna(lat) or pd.isna(lon):
         continue
 
-    # Ignore NaN
-    if pd.notnull(lat) and pd.notnull(lon):
+    domain = row["Domain"]
+    ip = row["IP Address"]
+    country = row["Country"]
+    city = row["City"]
 
-        folium.Marker(
-            [lat, lon],
-            popup=domain
-        ).add_to(dns_map)
+    color = "blue"
 
-# Save map
+    if country == "India":
+        color = "green"
+    elif country == "United States":
+        color = "red"
+    elif country == "Germany":
+        color = "orange"
+    elif country == "Canada":
+        color = "purple"
+    else:
+        color = "blue"
+
+    popup_text = f"""
+    <b>Domain:</b> {domain}<br>
+    <b>IP Address:</b> {ip}<br>
+    <b>Country:</b> {country}<br>
+    <b>City:</b> {city}
+    """
+
+    folium.Marker(
+        location=[lat, lon],
+        popup=popup_text,
+        tooltip=domain,
+        icon=folium.Icon(color=color)
+    ).add_to(dns_map)
+
 dns_map.save("dns_map.html")
 
-print("Map Created Successfully")
+print("Map generated successfully: dns_map.html")
