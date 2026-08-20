@@ -155,7 +155,7 @@ def detect_dns(packet):
 
                             print("Saved to CSV")
 
-                            time.sleep(0.2)
+                            # time.sleep(0.2)
 
                     # IPv6
                     elif answer.type == 28:
@@ -176,7 +176,7 @@ create_csv()
 
 # Start sniffing
 sniff(
-    filter="udp port 53",
+    filter="udp port 53 or tcp port 53",
     prn=detect_dns,
-    store=0
+    store=False
 )
